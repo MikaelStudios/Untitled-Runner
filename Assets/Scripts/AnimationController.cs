@@ -33,7 +33,8 @@ public class AnimationController : MonoBehaviour
         PC.OnDeath += Death;
         GC.GroundedUpdated += GroundUpdate;
         GameMaster.instance.OnGameStart += () => anim.SetBool("Idle", false);
-
+        PC.OnWin += () => anim.SetTrigger("Win");
+        PC.OnWin += () => PC.enabled = false;
     }
 
     void Landing(float height)

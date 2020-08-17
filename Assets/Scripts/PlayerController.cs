@@ -41,6 +41,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("FALL DAMAGE DEBUG CALCS")]
     [SerializeField] Text VelocityTest;
+    [SerializeField] float DeathHeight = -5f;
     #endregion
 
     #region Variables for basic storage and calculations
@@ -65,6 +66,8 @@ public class PlayerController : MonoBehaviour
     public event Action OnSlideEnd = delegate { };
     public event Action OnVault = delegate { };
     public event Action OnDeath = delegate { };
+    public event Action OnWin = delegate { };
+
     #endregion
 
     #region Properties
@@ -117,6 +120,8 @@ public class PlayerController : MonoBehaviour
             jumpHeight = transform.position.y;
             isFalling = true;
         }
+        if (transform.position.y < DeathHeight)
+            Death();
     }
     private void FixedUpdate()
     {
@@ -186,13 +191,13 @@ public class PlayerController : MonoBehaviour
         else if (!onEdge && OnHead)
         {
             OnDeath();
-            if (hitInfo.collider != null)
-            {
-                Extensions.Debug(hitInfo.collider.transform.position.z.ToString());
-                Extensions.Debug(HeadCaster.transform.position.z.ToString());
-                Extensions.Debug(hitInfo.collider.gameObject.name);
+            //if (hitInfo.collider != null)
+            //{
+            //    Extensions.Debug(hitInfo.collider.transform.position.z.ToString());
+            //    Extensions.Debug(HeadCaster.transform.position.z.ToString());
+            //    Extensions.Debug(hitInfo.collider.gameObject.name);
 
-            }
+            //}
         }
 
     }
@@ -244,6 +249,15 @@ public class PlayerController : MonoBehaviour
         CC.center = defaultCCcenter;
         CC.height = defaultCCheight;
         isSliding = false;
+    }
+
+    public void Death()
+    {
+        OnDeath();
+    }
+    public void Win()
+    {
+        OnWin();
     }
 
     #region Helper Methods

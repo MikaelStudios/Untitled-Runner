@@ -10,9 +10,10 @@ class StateTrigger : MonoBehaviour
             switch (GameState)
             {
                 case State.Win:
+                    PC.Win();
                     break;
                 case State.Lose:
-                    //PC.OnDeath();
+                    PC.Death();
                     break;
             }
         }

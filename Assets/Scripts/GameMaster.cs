@@ -11,6 +11,10 @@ public class GameMaster : MonoBehaviour
     [SerializeField] float CameraTransitDuration;
     [SerializeField] Ease TransitEase;
 
+    [Header("VICTORY CUTSCENE SETTINGS")]
+    [SerializeField] float WinTransitTime;
+    [SerializeField] float DelayToPopUp = 1.5f;
+
     [Header("WINDOWS")]
     [SerializeField] LeanWindow m_loseWindow;
     [SerializeField] LeanWindow m_winWindow;
@@ -22,6 +26,7 @@ public class GameMaster : MonoBehaviour
     Transform player;
     bool isTransiting = true;
     PlayerController m_pc;
+    Vector3 C_CameraOffset;
 
     private void Awake()
     {
@@ -36,6 +41,8 @@ public class GameMaster : MonoBehaviour
 
         OnGameStart += () => m_pc.enabled = true;
         m_pc.OnDeath += () => Timer.Register(2, () => m_loseWindow.TurnOn());
+        m_pc.OnWin += Victory;
+        C_CameraOffset = CutsceneCamera.transform.position - player.position;
     }
 
     public void Intro()
@@ -51,6 +58,16 @@ public class GameMaster : MonoBehaviour
         Timer.Register(CameraTransitDuration / 2, () => isTransiting = false);
         Timer.Register(CameraTransitDuration / 2, () => CutsceneCamera.transform.DORotateQuaternion(mainCamera.transform.rotation, CameraTransitDuration / 2).SetEase(TransitEase));
         Timer.Register(CameraTransitDuration + .25f, () => OnGameStart());
+    }
+
+    void Victory()
+    {
+        CutsceneCamera.transform.position = mainCamera.transform.position;
+        isTransiting = true;
+        CutsceneCamera.gameObject.SetActive(true);
+        Vector3 newPos = player.position + C_CameraOffset;
+        CutsceneCamera.transform.DOMove(newPos, WinTransitTime);
+        Timer.Register(WinTransitTime + DelayToPopUp, () => m_winWindow.TurnOn());
     }
 
     private void LateUpdate()
