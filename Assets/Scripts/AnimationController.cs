@@ -35,15 +35,18 @@ public class AnimationController : MonoBehaviour
         GameMaster.instance.OnGameStart += () => anim.SetBool("Idle", false);
         PC.OnWin += () => anim.SetTrigger("Win");
         PC.OnWin += () => PC.enabled = false;
+        PC.OnWin += () => enabled = false;
+        if (PC.enabled)
+            anim.SetBool("Idle", false);
     }
 
     void Landing(float height)
     {
-        if (height < 1.3f)
+        if (height < .85f)
             h = 0;
-        else if (height > 1.3f && height < 1.7f)
+        else if (height > .85f && height < 1.8f)
             h = 1;
-        else if (height > 1.7f)
+        else if (height > 1.8f)
             h = 2;
         anim.SetInteger("Int_Landing", h);
         anim.SetBool("JumpEnd", true);

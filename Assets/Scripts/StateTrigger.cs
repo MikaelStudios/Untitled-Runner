@@ -18,6 +18,22 @@ class StateTrigger : MonoBehaviour
             }
         }
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.CompareTag("Player"))
+        {
+            PlayerController PC = collision.collider.GetComponent<PlayerController>();
+            switch (GameState)
+            {
+                case State.Win:
+                    PC.Win();
+                    break;
+                case State.Lose:
+                    PC.Death();
+                    break;
+            }
+        }
+    }
 
     public enum State
     {

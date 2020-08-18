@@ -9,6 +9,8 @@ public class CameraFollow : MonoBehaviour
     private void Start()
     {
         Distance = -Target.position + transform.position;
+        if (Target == null)
+            Target = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     // Update is called once per frame

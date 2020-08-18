@@ -2,7 +2,6 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -40,7 +39,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float VaultForce = 1;
 
     [Header("FALL DAMAGE DEBUG CALCS")]
-    [SerializeField] Text VelocityTest;
     [SerializeField] float DeathHeight = -5f;
     #endregion
 
@@ -88,7 +86,7 @@ public class PlayerController : MonoBehaviour
                 canJumpAgain = true;
                 OnLanded(jumpHeight - transform.position.y);
                 isFalling = false;
-                VelocityTest.text = (jumpHeight - transform.position.y).ToString();
+                //VelocityTest.text = (jumpHeight - transform.position.y).ToString();
             }
             isGrounded = value;
 
@@ -136,7 +134,10 @@ public class PlayerController : MonoBehaviour
     {
         Gizmos.color = Color.red;
         if (HeadCaster != null)
+        {
             Gizmos.DrawRay(HeadCaster.position, transform.forward * RayDistance);
+            Gizmos.DrawRay(HeadCaster.position + new Vector3(0, .1f, 0), transform.forward * RayDistance);
+        }
         Gizmos.color = Color.green;
         for (int i = 0; i < 2; i++)
         {
@@ -183,7 +184,7 @@ public class PlayerController : MonoBehaviour
             }
         }
         RaycastHit hitInfo;
-        bool OnHead = Physics.Raycast(HeadCaster.position, transform.forward, out hitInfo, RayDistance, groundMask);
+        bool OnHead = Physics.Raycast(HeadCaster.position, transform.forward, out hitInfo, RayDistance, groundMask) || Physics.Raycast(HeadCaster.position + new Vector3(0, .1f, 0), transform.forward, out hitInfo, RayDistance, groundMask);
         if (onEdge && !OnHead && !isGrounded)
             VaultJump();
         else if (onEdge && OnHead && IsGrounded)
@@ -258,6 +259,9 @@ public class PlayerController : MonoBehaviour
     public void Win()
     {
         OnWin();
+        InputManager.instance.OnTap -= Jump;
+        //InputManager.instance.OnHold += Jump;
+        InputManager.instance.OnSwipe -= Slide;
     }
 
     #region Helper Methods

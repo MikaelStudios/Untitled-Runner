@@ -1,8 +1,10 @@
 ﻿using DG.Tweening;
 using Lean.Gui;
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameMaster : MonoBehaviour
 {
@@ -10,6 +12,8 @@ public class GameMaster : MonoBehaviour
     [SerializeField] Camera CutsceneCamera;
     [SerializeField] float CameraTransitDuration;
     [SerializeField] Ease TransitEase;
+    [SerializeField] Text CountDownText;
+    float TimeToCountdown;
 
     [Header("VICTORY CUTSCENE SETTINGS")]
     [SerializeField] float WinTransitTime;
@@ -40,9 +44,15 @@ public class GameMaster : MonoBehaviour
         m_pc = player.GetComponent<PlayerController>();
 
         OnGameStart += () => m_pc.enabled = true;
+
         m_pc.OnDeath += () => Timer.Register(2, () => m_loseWindow.TurnOn());
+
         m_pc.OnWin += Victory;
-        C_CameraOffset = CutsceneCamera.transform.position - player.position;
+
+        if (CutsceneCamera != null)
+            C_CameraOffset = CutsceneCamera.transform.position - player.position;
+        else
+            isTransiting = false;
     }
 
     public void Intro()
@@ -58,15 +68,40 @@ public class GameMaster : MonoBehaviour
         Timer.Register(CameraTransitDuration / 2, () => isTransiting = false);
         Timer.Register(CameraTransitDuration / 2, () => CutsceneCamera.transform.DORotateQuaternion(mainCamera.transform.rotation, CameraTransitDuration / 2).SetEase(TransitEase));
         Timer.Register(CameraTransitDuration + .25f, () => OnGameStart());
+        CountDownSeq();
+    }
+
+    void CountDownSeq()
+    {
+        StartCoroutine(StartRace());
+    }
+
+    IEnumerator StartRace()
+    {
+        CountDownText.gameObject.SetActive(true);
+        for (int i = 3; i >= 0; i--)
+        {
+            if (i == 0)
+                CountDownText.text = "<size=100>GO!!!</size>";
+            else
+                CountDownText.text = i.ToString();
+            CountDownText.rectTransform.DOScale(0, 0);
+            CountDownText.rectTransform.DOScale(1, .7f).SetEase(Ease.OutBounce);
+            yield return new WaitForSeconds(1);
+        }
+        CountDownText.gameObject.SetActive(false);
     }
 
     void Victory()
     {
-        CutsceneCamera.transform.position = mainCamera.transform.position;
-        isTransiting = true;
-        CutsceneCamera.gameObject.SetActive(true);
-        Vector3 newPos = player.position + C_CameraOffset;
-        CutsceneCamera.transform.DOMove(newPos, WinTransitTime);
+        if (CutsceneCamera != null)
+        {
+            CutsceneCamera.transform.position = mainCamera.transform.position;
+            isTransiting = true;
+            CutsceneCamera.gameObject.SetActive(true);
+            Vector3 newPos = player.position + C_CameraOffset;
+            CutsceneCamera.transform.DOMove(newPos, WinTransitTime);
+        }
         Timer.Register(WinTransitTime + DelayToPopUp, () => m_winWindow.TurnOn());
     }
 
@@ -77,6 +112,6 @@ public class GameMaster : MonoBehaviour
     }
     public void Restart()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
