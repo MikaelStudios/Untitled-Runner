@@ -22,7 +22,7 @@ public class InputManager : MonoBehaviour
     [Space]
     [SerializeField] private bool DebugStatements;
 
-    //private float acumTime = 0;
+    private float acumTime = 0;
     private bool TouchBegin;
     private Vector2 fingerDownPosition;
     private Vector2 fingerUpPosition;
@@ -31,6 +31,7 @@ public class InputManager : MonoBehaviour
 
     public event Action OnTap = delegate { };
     public event Action OnHold = delegate { };
+    public event Action OnHoldEnd = delegate { };
     public event Action<SwipeData> OnSwipe = delegate { };
     public event Action OnTouchBeign = delegate { };
 
@@ -63,10 +64,26 @@ public class InputManager : MonoBehaviour
         touchPos = Vector3.zero;
         if (Input.touchCount > 0)
         {
+            OnTouchBeign();
             StackOverflowTapMethod();
             SwipeInputCheck();
-            //if (Input.GetMouseButtonUp(0))
-            //    OnTap();
+            CheckForHold();
+        }
+    }
+
+    private void CheckForHold()
+    {
+        acumTime += Input.GetTouch(0).deltaTime;
+        if (acumTime >= holdTime)
+        {
+            OnHold();
+        }
+        if (Input.GetTouch(0).phase == TouchPhase.Ended)
+        {
+            {
+                acumTime = 0;
+                OnHoldEnd();
+            }
         }
         else
             TouchBegin = false;

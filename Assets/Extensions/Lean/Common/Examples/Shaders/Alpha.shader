@@ -43,6 +43,11 @@
 				float4 color  : COLOR;
 			};
 
+			struct f2g
+			{
+				float4 color : SV_TARGET;
+			};
+
 			void Vert(a2v i, out v2f o)
 			{
 				o.vertex = UnityObjectToClipPos(i.vertex);
@@ -50,9 +55,9 @@
 				o.color  = i.color * _Color;
 			}
 
-			void Frag(v2f i, out float4 o:COLOR0)
+			void Frag(v2f i, out f2g o)
 			{
-				o = tex2D(_MainTex, i.uv) * i.color;
+				o.color = tex2D(_MainTex, i.uv) * i.color;
 			}
 			ENDCG
 		} // Pass

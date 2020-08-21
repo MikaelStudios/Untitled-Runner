@@ -508,7 +508,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca9e9ad02d4dc054ebeac667279bf7ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrounded: 0
   WhatisGround:
     serializedVersion: 2
     m_Bits: 512
@@ -1834,6 +1833,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7501006169459457529}
+  - component: {fileID: -2126813639288616241}
   m_Layer: 0
   m_Name: Generic Girl - RagDoll
   m_TagString: Player
@@ -1861,6 +1861,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-2126813639288616241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7501006169459457535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16b5ccd71c7f28843aac34352d81a233, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7501006169506254215
 GameObject:
   m_ObjectHideFlags: 0

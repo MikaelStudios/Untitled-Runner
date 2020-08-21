@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Hellmade.Sound;
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -38,14 +39,30 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float RayDistance = 1;
     [SerializeField] float VaultForce = 1;
 
+    [Header("WALL RUN")]
+    [SerializeField] Transform WallRunChecker;
+    [SerializeField] float WallRayDistance;
+
     [Header("FALL DAMAGE DEBUG CALCS")]
     [SerializeField] float DeathHeight = -5f;
+
+    [Header("HEALTH AND DEATH PARAMETERS")]
+    [SerializeField] bool InstantDeath = false;
+    [SerializeField] float TimeToRespawn = 1;
+    [SerializeField] float SlowDownTime = 1;
+
+    [Header("AUDIO")]
+    [SerializeField] AudioClip[] Sound_Jump;
+    [SerializeField] AudioClip[] Sound_Vault;
+    [SerializeField] AudioClip Sound_Slide;
     #endregion
 
     #region Variables for basic storage and calculations
     bool isSliding = false;
     bool canJumpAgain = true;
     bool isDead = false;
+    bool isWallRunning = false;
+    bool isBoosting = false;
 
     bool isFalling = false;
     float jumpHeight;
@@ -55,17 +72,22 @@ public class PlayerController : MonoBehaviour
     CapsuleCollider CC;
     Vector3 defaultCCcenter;
     float defaultCCheight;
+    Vector3 currCheckpoint;
+
     #endregion
 
     #region Events
     public event Action OnJump = delegate { };
     public event Action<float> OnLanded = delegate { };
+    public event Action OnWallRun = delegate { };
+    public event Action OnWallRunEnd = delegate { };
     public event Action OnSlideBegin = delegate { };
     public event Action OnSlideEnd = delegate { };
     public event Action OnVault = delegate { };
-    public event Action OnDeath = delegate { };
+    public event Action<bool> OnDeath = delegate { };
     public event Action OnWin = delegate { };
-
+    public event Action AirBoost = delegate { };
+    public event Action Stumble = delegate { };
     #endregion
 
     #region Properties
@@ -86,12 +108,15 @@ public class PlayerController : MonoBehaviour
                 canJumpAgain = true;
                 OnLanded(jumpHeight - transform.position.y);
                 isFalling = false;
+                isBoosting = false;
                 //VelocityTest.text = (jumpHeight - transform.position.y).ToString();
             }
             isGrounded = value;
 
         }
     }
+
+    public float RespawnTime { get => TimeToRespawn; /*set => TimeToRespawn = value;*/ }
 
 
     #endregion
@@ -103,9 +128,11 @@ public class PlayerController : MonoBehaviour
         defaultCCcenter = CC.center;
         defaultCCheight = CC.height;
         HeadCasterDefaultPosition = HeadCaster.localPosition;
+        currCheckpoint = transform.position;
         InputManager.instance.OnTap += Jump;
-        //InputManager.instance.OnHold += Jump;
+        InputManager.instance.OnHold += WallRun;
         InputManager.instance.OnSwipe += Slide;
+        InputManager.instance.OnHoldEnd += WallRunEnd;
     }
 
     private void Update()
@@ -120,6 +147,8 @@ public class PlayerController : MonoBehaviour
         }
         if (transform.position.y < DeathHeight)
             Death();
+        CanVaultCheck();
+
     }
     private void FixedUpdate()
     {
@@ -127,7 +156,6 @@ public class PlayerController : MonoBehaviour
             return;
         AutoMoveForward();
         BetterJumpModifiers();
-        CanVaultCheck();
     }
 
     private void OnDrawGizmos()
@@ -142,6 +170,44 @@ public class PlayerController : MonoBehaviour
         for (int i = 0; i < 2; i++)
         {
             Gizmos.DrawRay(BodyCasters[i].position, transform.forward * RayDistance);
+        }
+        Gizmos.color = Color.blue;
+        if (WallRunChecker != null)
+        {
+            Gizmos.DrawRay(WallRunChecker.position, -transform.right * WallRayDistance);
+        }
+    }
+
+    bool stumble = false;
+    bool slowdownNormal = false;
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.CompareTag("SlowDown"))
+        {
+            if (!stumble)
+            {
+                Speed /= 2;
+                stumble = true;
+
+                if (collision.collider.gameObject.HasRigidbody())
+                {
+
+                    Stumble();
+                    Timer.Register(SlowDownTime, () => Speed *= 2);
+                    Timer.Register(SlowDownTime, () => stumble = false);
+                }
+                else
+                    slowdownNormal = true;
+            }
+        }
+    }
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.collider.CompareTag("SlowDown") && stumble && slowdownNormal)
+        {
+            Speed *= 2;
+            stumble = false;
+            slowdownNormal = false;
         }
     }
 
@@ -158,10 +224,14 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
-        if (isDead)
+        if (isDead || isWallRunning)
             return;
         if (IsGrounded)
+        {
             RigidbodyJump();
+            if (!canJumpAgain)
+                canJumpAgain = true;
+        }
         else if (canJumpAgain && canDoubleJump)
         {
             RigidbodyJump();
@@ -191,7 +261,7 @@ public class PlayerController : MonoBehaviour
             CollideDeath();
         else if (!onEdge && OnHead)
         {
-            OnDeath();
+            Death();
             //if (hitInfo.collider != null)
             //{
             //    Extensions.Debug(hitInfo.collider.transform.position.z.ToString());
@@ -205,41 +275,88 @@ public class PlayerController : MonoBehaviour
 
     void CollideDeath()
     {
-        isDead = true;
-        OnDeath();
+        //isDead = true;
+        Death();
     }
     void VaultJump()
     {
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
         rb.velocity = Vector3.up * VaultForce * 100 * Time.fixedDeltaTime;
+        if (isWallRunning)
+        {
+            OnWallRunEnd();
+        }
+        EazySoundManager.PlaySound(Sound_Vault.GetRandom());
         Extensions.Debug("Vaulted");
         OnVault();
     }
 
+    void WallRun()
+    {
+        if (isDead)
+            return;
+        if (Physics.Raycast(WallRunChecker.position, -transform.right, WallRayDistance, groundMask))
+        {
+            if (!isWallRunning)
+            {
+                canJumpAgain = true;
+                OnWallRun();
+                isWallRunning = true;
+                rb.isKinematic = true;
+            }
+
+        }
+        else
+        {
+
+            WallRunEnd();
+        }
+    }
+    void WallRunEnd()
+    {
+        if (isWallRunning)
+        {
+            OnWallRunEnd();
+            rb.isKinematic = false;
+            ResetVelocity();
+            isWallRunning = false;
+        }
+    }
     private void RigidbodyJump()
     {
-        rb.velocity = Vector3.zero;
-        rb.angularVelocity = Vector3.zero;
-        rb.velocity = Vector3.up * jumpForce * 100 * Time.fixedDeltaTime;
+        if (!isBoosting)
+            ResetVelocity();
+        //rb.velocity = Vector3.up * jumpForce * 100 * Time.fixedDeltaTime;
+        EazySoundManager.PlaySound(Sound_Jump.GetRandom());
+        rb.AddForce(Vector3.up * jumpForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
         OnJump?.Invoke();
         //rb.AddForce(Vector3.up * 100 * jumpForce * Time.fixedDeltaTime);
         //WaitForFixedUpdate(() => rb.AddForce(Vector3.up * 100 * jumpForce * Time.fixedDeltaTime));
     }
 
+    private void ResetVelocity()
+    {
+        rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+    }
+
     void Slide(SwipeData swipe)
     {
-        if (isDead)
+        if (isDead || isWallRunning)
             return;
         if (swipe.Direction == SwipeDirection.Down)
-            HeadCaster.localPosition = BodyCasters[0].localPosition;
-        if (!isSliding && isGrounded)
         {
-            isSliding = true;
-            CC.center = CapsuleCenter;
-            CC.height = CapsuleHeight;
-            OnSlideBegin();
-            Timer.Register(SlideTime, () => SlideEnd());
+            HeadCaster.localPosition = BodyCasters[0].localPosition;
+            if (!isSliding && isGrounded)
+            {
+                isSliding = true;
+                CC.center = CapsuleCenter;
+                CC.height = CapsuleHeight;
+                OnSlideBegin();
+                Timer.Register(SlideTime, () => SlideEnd());
+                EazySoundManager.PlaySound(Sound_Slide);
+            }
         }
     }
 
@@ -252,9 +369,43 @@ public class PlayerController : MonoBehaviour
         isSliding = false;
     }
 
+    public void AddCheckPoint(Vector3 C)
+    {
+        if (C.z > currCheckpoint.z)
+            currCheckpoint = C;
+    }
+
     public void Death()
     {
-        OnDeath();
+        isDead = true;
+        OnDeath(InstantDeath);
+        if (InstantDeath)
+            return;
+        Timer.Register(TimeToRespawn, () => transform.position = currCheckpoint);
+        const float V = .25f;
+        Timer.Register(TimeToRespawn + V, () => Revive());
+        Timer.Register(TimeToRespawn + V + .1f, () => gameObject.SetActive(true));
+        ResetVelocity();
+
+    }
+
+    public void SpeedBoost(Vector3 force, float addedSpeed)
+    {
+        if (force.y != 0)
+        {
+            AirBoost();
+        }
+        if (!isBoosting)
+        {
+            isBoosting = true;
+            rb.AddForce(force * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
+        }
+        Speed += addedSpeed;
+    }
+    public void Revive()
+    {
+        isDead = false;
+        isFalling = false;
     }
     public void Win()
     {

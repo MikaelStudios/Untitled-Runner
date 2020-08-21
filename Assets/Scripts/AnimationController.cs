@@ -4,7 +4,7 @@ using UnityEngine;
 public class AnimationController : MonoBehaviour
 {
     [Header("RagDoll Death")]
-    [SerializeField] GameObject RagdollObject;
+    //[SerializeField] GameObject RagdollObject;
     [SerializeField] string RagHeadName = "head1_head";
     [SerializeField] float RagDollForce;
 
@@ -26,20 +26,35 @@ public class AnimationController : MonoBehaviour
 
         PC.OnJump += () => anim.SetTrigger("Jump");
         PC.OnJump += () => anim.SetBool("JumpEnd", false);
+
         PC.OnLanded += Landing;
+
         PC.OnSlideBegin += () => anim.SetBool("Slide", true);
         PC.OnSlideEnd += () => anim.SetBool("Slide", false);
+
         PC.OnVault += () => anim.SetTrigger("Vault");
         PC.OnDeath += Death;
+
         GC.GroundedUpdated += GroundUpdate;
         GameMaster.instance.OnGameStart += () => anim.SetBool("Idle", false);
+
         PC.OnWin += () => anim.SetTrigger("Win");
         PC.OnWin += () => PC.enabled = false;
         PC.OnWin += () => enabled = false;
+
+        PC.OnWallRun += () => anim.SetBool("WallRun", true);
+        PC.OnWallRunEnd += () => anim.SetBool("WallRun", false);
+
+        PC.AirBoost += () => anim.SetTrigger("Boost");
+        PC.Stumble += () => anim.SetTrigger("Stumble");
         if (PC.enabled)
             anim.SetBool("Idle", false);
     }
-
+    private void OnEnable()
+    {
+        if (PC != null && PC.enabled)
+            anim.SetBool("Idle", false);
+    }
     void Landing(float height)
     {
         if (height < .85f)
@@ -57,10 +72,10 @@ public class AnimationController : MonoBehaviour
         anim.SetBool("Grounded", isGrounded);
     }
 
-    void Death()
+    void Death(bool Final)
     {
 
-        GameObject Rag = Instantiate(RagdollObject, transform.position, Quaternion.identity);
+        GameObject Rag = ObjectPooler.instance.SpawnFromPool("Ragdoll", transform.position, transform.rotation);
         Transform[] RagChild = Rag.GetComponentsInChildren<Transform>(true);
         Transform[] MyChildren = gameObject.GetComponentsInChildren<Transform>(true);
         Rigidbody ragHead = null;
@@ -72,11 +87,14 @@ public class AnimationController : MonoBehaviour
                 RagChild[i].transform.rotation = MyChildren[i].transform.rotation;
                 if (string.Equals(RagChild[i].name, RagHeadName))
                     ragHead = RagChild[i].GetComponent<Rigidbody>();
+                if (RagChild[i].GetComponent<Rigidbody>() != null)
+                    RagChild[i].GetComponent<Rigidbody>().ResetVelocity();
             }
         }
         if (ragHead != null)
         {
-            ragHead.AddForce(-transform.forward * 100 * Time.fixedDeltaTime * RagDollForce, ForceMode.Impulse);
+            ragHead.ResetVelocity();
+            ragHead.AddForce((-transform.forward + (transform.up * Random.Range(.1f, 1))) * 100 * Time.fixedDeltaTime * RagDollForce, ForceMode.Impulse);
         }
         gameObject.SetActive(false);
     }

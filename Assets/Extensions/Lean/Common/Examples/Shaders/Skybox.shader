@@ -39,14 +39,19 @@
 				float4 position : TEXCOORD0;
 			};
 
+			struct f2g
+			{
+				float4 color : SV_TARGET;
+			};
+
 			void Vert(a2v i, out v2f o)
 			{
 				o.vertex = o.position = UnityObjectToClipPos(i.vertex);
 			}
 
-			void Frag(v2f i, out float4 o:COLOR0)
+			void Frag(v2f i, out f2g o)
 			{
-				o = lerp(_Color1, _Color2, length(i.position.xy / i.position.w) * _Scale);
+				o.color = lerp(_Color1, _Color2, length(i.position.xy / i.position.w) * _Scale);
 			}
 			ENDCG
 		} // Pass
