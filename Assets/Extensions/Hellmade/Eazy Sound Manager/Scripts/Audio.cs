@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Audio;
 
 namespace Hellmade.Sound
 {
@@ -60,7 +61,7 @@ namespace Hellmade.Sound
             get { return sourceTransform; }
             set
             {
-                if(value == null)
+                if (value == null)
                 {
                     sourceTransform = EazySoundManager.Gameobject.transform;
                 }
@@ -96,7 +97,7 @@ namespace Hellmade.Sound
             set
             {
                 loop = value;
-                if(AudioSource != null)
+                if (AudioSource != null)
                 {
                     AudioSource.loop = loop;
                 }
@@ -256,7 +257,7 @@ namespace Hellmade.Sound
             set
             {
                 max3DDistance = Mathf.Max(value, 0.01f);
-                if(AudioSource != null)
+                if (AudioSource != null)
                 {
                     AudioSource.maxDistance = max3DDistance;
                 }
@@ -319,7 +320,7 @@ namespace Hellmade.Sound
         private AudioRolloffMode rolloffMode;
         private float max3DDistance;
         private float min3DDistance;
-        
+
         private float targetVolume;
         private float initTargetVolume;
         private float tempFadeSeconds;
@@ -433,6 +434,11 @@ namespace Hellmade.Sound
             targetVolume = volume;
         }
 
+        public void AddMixerGroup(AudioMixerGroup AG)
+        {
+            if (AudioSource != null)
+                AudioSource.outputAudioMixerGroup = AG;
+        }
         /// <summary>
         /// Stop playing audio clip
         /// </summary>

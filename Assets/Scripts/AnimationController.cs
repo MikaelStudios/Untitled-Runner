@@ -47,6 +47,9 @@ public class AnimationController : MonoBehaviour
 
         PC.AirBoost += () => anim.SetTrigger("Boost");
         PC.Stumble += () => anim.SetTrigger("Stumble");
+
+        PC.OnClimbStart += () => anim.SetBool("Climb", true);
+        PC.OnClimbEnd += () => anim.SetBool("Climb", false);
         if (PC.enabled)
             anim.SetBool("Idle", false);
     }

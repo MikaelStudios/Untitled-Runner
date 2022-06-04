@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdb9699bc303f7d448edb08864524c2b, type: 3}
+  m_Name: Track _Autumn
+  m_EditorClassIdentifier: 
+  m_type: 1
+  m_tracks:
+  - m_track: {fileID: 4384626559567362890, guid: 2f72866676387814dbba4fe186b17a68,
+      type: 3}
+    m_difficulty: 0
+  - m_track: {fileID: 3873206209338684221, guid: 9b8fac192cdf8634289e1c78bb85ac2e,
+      type: 3}
+    m_difficulty: 0
+  - m_track: {fileID: 2298255330657984180, guid: e696769ebbcfea84faec17862374460d,
+      type: 3}
+    m_difficulty: 0
+  - m_track: {fileID: 2182951708063994228, guid: edb063a031f5eac41bd77c60b21ce234,
+      type: 3}
+    m_difficulty: 0
+  sky_UpColor: {r: 0.14117648, g: 0.30588236, b: 0.43921572, a: 0}
+  sky_DownColor: {r: 0.97647065, g: 0.62352943, b: 0.4901961, a: 0}

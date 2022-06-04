@@ -5,7 +5,7 @@ ModelImporter:
   internalIDToNameTable:
   - first:
       74: -203655887218126122
-    second: mixamo.com
+    second: Running Forward Flip
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -21,7 +21,11 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: 
     animationImportErrors: 
-    animationImportWarnings: 
+    animationImportWarnings: "\nClip 'mixamo.com' has import animation warnings that
+      might lower retargeting quality:\nNote: Activate translation DOF on avatar to
+      improve retargeting quality.\n\t'spine1_loResSpine3' is inbetween humanoid transforms
+      and has rotation animation that will be discarded.\n\t'head1_head' is inbetween
+      humanoid transforms and has rotation animation that will be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
@@ -33,7 +37,36 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Running Forward Flip
+      takeName: mixamo.com
+      internalID: 0
+      firstFrame: 0
+      lastFrame: 33
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 1
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 0
   meshes:
     lODScreenPercentages: []
@@ -75,8 +108,301 @@ ModelImporter:
   copyAvatar: 0
   humanDescription:
     serializedVersion: 3
-    human: []
-    skeleton: []
+    human:
+    - boneName: spine1_loResSpine1
+      humanName: Hips
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: leftLeg1_LoResUpperLeg
+      humanName: LeftUpperLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: rightLeg1_LoResUpperLeg
+      humanName: RightUpperLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: leftLeg1_LoResLowerLeg
+      humanName: LeftLowerLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: rightLeg1_LoResLowerLeg
+      humanName: RightLowerLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: leftLeg1_LoResFoot
+      humanName: LeftFoot
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: rightLeg1_LoResFoot
+      humanName: RightFoot
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: spine1_loResSpine2
+      humanName: Spine
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: head1_neck
+      humanName: Head
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: leftArm1_LoResClavical
+      humanName: LeftShoulder
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: rightArm1_LoResClavical
+      humanName: RightShoulder
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: leftArm1_LoResUpperArm
+      humanName: LeftUpperArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: rightArm1_LoResUpperArm
+      humanName: RightUpperArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: leftArm1_LoResLowerArm
+      humanName: LeftLowerArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: rightArm1_LoResLowerArm
+      humanName: RightLowerArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: leftArm1_LoResHand
+      humanName: LeftHand
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: rightArm1_LoResHand
+      humanName: RightHand
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: leftLeg1_LoResToe
+      humanName: LeftToes
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: rightLeg1_LoResToe
+      humanName: RightToes
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: mixamo:hair_girl_01
+      humanName: LeftEye
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: mixamo:eyes_basic_girl
+      humanName: RightEye
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    skeleton:
+    - name: Generic Girl@Running Forward Flip(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: TSMGWorldJoint
+      parentName: Generic Girl@Running Forward Flip(Clone)
+      position: {x: 0.031111687, y: -0.039475705, z: -0.036780857}
+      rotation: {x: 0.029612947, y: -0.011713796, z: 0.024329364, w: 0.99919665}
+      scale: {x: 1, y: 1, z: 1}
+    - name: spine1_loResSpine1
+      parentName: TSMGWorldJoint
+      position: {x: 0.0012300052, y: 0.6757193, z: -0.010302426}
+      rotation: {x: -0.097104564, y: -0.029893879, z: -0.71333164, w: 0.69342273}
+      scale: {x: 1, y: 1, z: 1}
+    - name: spine1_loResSpine2
+      parentName: spine1_loResSpine1
+      position: {x: -0.086656, y: 0, z: 0}
+      rotation: {x: 0.019649927, y: 0.034983493, z: -0.007991967, w: 0.99916273}
+      scale: {x: 1, y: 1, z: 1}
+    - name: spine1_loResSpine3
+      parentName: spine1_loResSpine2
+      position: {x: -0.130823, y: 0, z: 0}
+      rotation: {x: 0.038600825, y: 0.14338739, z: -0.027996035, w: 0.9885172}
+      scale: {x: 1, y: 1, z: 1}
+    - name: head1_neck
+      parentName: spine1_loResSpine3
+      position: {x: -0.137901, y: 0, z: -0.001358}
+      rotation: {x: -0.027640225, y: -0.0701538, z: 0.0018547201, w: 0.9971515}
+      scale: {x: 1, y: 1, z: 1}
+    - name: head1_head
+      parentName: head1_neck
+      position: {x: -0.16590999, y: 0, z: 0}
+      rotation: {x: -0.06924839, y: -0.11944654, z: 0.037521906, w: 0.98971176}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamo:hair_girl_01
+      parentName: head1_head
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamo:eyes_basic_girl
+      parentName: head1_head
+      position: {x: -0, y: 0, z: 0.00020899999}
+      rotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: leftArm1_LoResClavical
+      parentName: spine1_loResSpine3
+      position: {x: -0.133337, y: -0.050686996, z: -0.001313}
+      rotation: {x: -0.0034904473, y: 0.011088849, z: 0.7610018, w: 0.6486456}
+      scale: {x: 1, y: 1, z: 1}
+    - name: leftArm1_LoResUpperArm
+      parentName: leftArm1_LoResClavical
+      position: {x: -0.09515999, y: 0, z: 0}
+      rotation: {x: 0.100823015, y: 0.007850464, z: -0.048468303, w: 0.9936921}
+      scale: {x: 1, y: 1, z: 1}
+    - name: leftArm1_LoResLowerArm
+      parentName: leftArm1_LoResUpperArm
+      position: {x: -0.187787, y: 0, z: 0}
+      rotation: {x: 0.10090011, y: 0.0017368296, z: -0.009792126, w: 0.9948469}
+      scale: {x: 1, y: 1, z: 1}
+    - name: leftArm1_LoResHand
+      parentName: leftArm1_LoResLowerArm
+      position: {x: -0.22177099, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: rightArm1_LoResClavical
+      parentName: spine1_loResSpine3
+      position: {x: -0.133337, y: 0.050686996, z: -0.001313}
+      rotation: {x: 0.7623973, y: 0.64494836, z: 0.032696772, w: -0.04150845}
+      scale: {x: 1, y: 1, z: 1}
+    - name: rightArm1_LoResUpperArm
+      parentName: rightArm1_LoResClavical
+      position: {x: 0.09515999, y: 0, z: 0}
+      rotation: {x: 0.055390492, y: -0.08767736, z: -0.086342245, w: 0.99085295}
+      scale: {x: 1, y: 1, z: 1}
+    - name: rightArm1_LoResLowerArm
+      parentName: rightArm1_LoResUpperArm
+      position: {x: 0.187787, y: 0, z: 0}
+      rotation: {x: -0.00069218496, y: 0.004642896, z: -0.014161199, w: 0.9998888}
+      scale: {x: 1, y: 1, z: 1}
+    - name: rightArm1_LoResHand
+      parentName: rightArm1_LoResLowerArm
+      position: {x: 0.22177099, y: 0, z: 0}
+      rotation: {x: 0, y: 1.2246469e-16, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: leftLeg1_LoResUpperLeg
+      parentName: spine1_loResSpine1
+      position: {x: 0.062333, y: -0.124596, z: 0.006998}
+      rotation: {x: -0.04096783, y: -0.08722163, z: 0.9951568, w: 0.019418476}
+      scale: {x: 1, y: 1, z: 1}
+    - name: leftLeg1_LoResLowerLeg
+      parentName: leftLeg1_LoResUpperLeg
+      position: {x: -0.221583, y: 0, z: 0}
+      rotation: {x: -0.07171439, y: -0.2990214, z: -0.06793301, w: 0.94911987}
+      scale: {x: 1, y: 1, z: 1}
+    - name: leftLeg1_LoResFoot
+      parentName: leftLeg1_LoResLowerLeg
+      position: {x: -0.2325, y: 0, z: 0}
+      rotation: {x: 0.7603111, y: 0.2225296, z: -0.17913689, w: 0.5833674}
+      scale: {x: 1, y: 1, z: 1}
+    - name: leftLeg1_LoResToe
+      parentName: leftLeg1_LoResFoot
+      position: {x: -0.148218, y: 0, z: 0}
+      rotation: {x: -0.000016782818, y: 0.4856238, z: 0.0000093233075, w: 0.8741679}
+      scale: {x: 1, y: 1, z: 1}
+    - name: rightLeg1_LoResUpperLeg
+      parentName: spine1_loResSpine1
+      position: {x: 0.062333, y: 0.124596, z: 0.006998}
+      rotation: {x: -0.05548218, y: 0.039071687, z: 0.99768335, w: 0.004813698}
+      scale: {x: 1, y: 1, z: 1}
+    - name: rightLeg1_LoResLowerLeg
+      parentName: rightLeg1_LoResUpperLeg
+      position: {x: -0.221583, y: 0, z: 0}
+      rotation: {x: -0.013109885, y: -0.34274742, z: 0.01847297, w: 0.9391545}
+      scale: {x: 1, y: 1, z: 1}
+    - name: rightLeg1_LoResFoot
+      parentName: rightLeg1_LoResLowerLeg
+      position: {x: -0.2325, y: 0, z: 0}
+      rotation: {x: -0.0021010856, y: 0.53743654, z: -0.040427953, w: 0.84233207}
+      scale: {x: 1, y: 1, z: 1}
+    - name: rightLeg1_LoResToe
+      parentName: rightLeg1_LoResFoot
+      position: {x: -0.148218, y: 0, z: 0}
+      rotation: {x: -0.000016782818, y: 0.4856238, z: 0.0000093233075, w: 0.8741679}
+      scale: {x: 1, y: 1, z: 1}
     armTwist: 0.5
     foreArmTwist: 0.5
     upperLegTwist: 0.5

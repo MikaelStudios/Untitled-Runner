@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-/// <summary>
+﻿/// <summary>
 /// Boolean extensions
 /// </summary>
 public static class BoolExtensions
@@ -164,7 +159,7 @@ public static class BoolExtensions
     /// <param name="falseValue">Value to be returned if the condition is false.</param>
     /// <typeparam name="T">Instance of any class.</typeparam>
     /// <returns>Returns trueValue if the given value is true otherwise falseValue.</returns>
-    public static T ToType <T>(this bool item, T trueValue, T falseValue)
+    public static T ToType<T>(this bool item, T trueValue, T falseValue)
     {
         return item ? trueValue : falseValue;
     }

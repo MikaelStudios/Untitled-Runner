@@ -64,7 +64,8 @@ public class InputManager : MonoBehaviour
         touchPos = Vector3.zero;
         if (Input.touchCount > 0)
         {
-            OnTouchBeign();
+            if (Input.GetTouch(0).phase == TouchPhase.Began)
+                OnTouchBeign();
             StackOverflowTapMethod();
             SwipeInputCheck();
             CheckForHold();

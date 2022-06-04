@@ -3,6 +3,7 @@ using Hellmade.Sound;
 using Lean.Gui;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -29,29 +30,43 @@ public class GameMaster : MonoBehaviour
     [SerializeField] GameObject HomeScreen;
 
     [Header("SOUND")]
+    [SerializeField] Toggle Sound;
     [SerializeField] AudioClip[] Sound_Count;
     [SerializeField] AudioClip Go;
 
+    [Header("CHARACTER SELECT")]
+    [SerializeField] GameObject[] Characters;
+    [SerializeField] float TweenTime;
+    List<GameObject> instantiedCharacters = new List<GameObject>();
+    int selectedCharIndex = 0;
+    bool startCharSelect = false;
+
     public event Action OnGameStart = delegate { };
+    public event Action OnHome = delegate { };
+    public event Action OnPause = delegate { };
+    public event Action OnResume = delegate { };
     public static GameMaster instance;
 
     Camera mainCamera;
     Transform player;
     bool isTransiting = true;
-    [HideInInspector] public PlayerController m_pc;
+    public PlayerController m_pc;
     Vector3 C_CameraOffset;
-
+    Vector3 orgStartPos;
     static bool Home = true;
 
     private void Awake()
     {
         instance = this;
+
     }
 
     private void Start()
     {
         mainCamera = Camera.main;
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        selectedCharIndex = PlayerPrefs.GetInt("SelectedChar", 0);
+        orgStartPos = SpawnManager.instance.StartPos;
+        player = Instantiate(Characters[selectedCharIndex], orgStartPos, Quaternion.identity).transform;
         m_pc = player.GetComponent<PlayerController>();
 
         OnGameStart += () => m_pc.enabled = true;
@@ -72,15 +87,43 @@ public class GameMaster : MonoBehaviour
             OnGameStart();
             HomeScreen.SetActive(false);
         }
+
+        // UI STUFF
+        if (Sound != null)
+        {
+            Sound.isOn = PlayerPrefs.GetInt("SoundSet", 1) == 0 ? true : false;
+            TurnSound(Sound);
+        }
     }
 
     public void Intro()
     {
         Timer.Register(.2f, () => IntroCamerasTransition());
+
+        if (startCharSelect)
+        {
+            for (int i = 0; i < instantiedCharacters.Count; i++)
+            {
+                if (i != selectedCharIndex)
+                {
+                    instantiedCharacters[i].SetActive(false);
+                }
+                else
+                {
+                    instantiedCharacters[i].GetComponent<Rigidbody>().isKinematic = false;
+                    instantiedCharacters[i].transform.SetPositionZ(-10.5f);
+                }
+            }
+            PlayerPrefs.SetInt("SelectedChar", selectedCharIndex);
+        }
+        m_pc = player.GetComponent<PlayerController>();
+        Camera.main.GetComponent<CameraFollow>().UpdateTarget(player);
     }
 
     void IntroCamerasTransition()
     {
+        if (startCharSelect)
+            isTransiting = true;
         CutsceneCamera.transform.DOMove(mainCamera.transform.position, CameraTransitDuration).SetEase(TransitEase);
         //CutsceneCamera.transform.DOLookAt(player.position, CameraTransitDuration);
         Timer.Register(CameraTransitDuration + .1f, () => CutsceneCamera.gameObject.SetActive(false));
@@ -90,6 +133,51 @@ public class GameMaster : MonoBehaviour
         CountDownSeq();
     }
 
+    public void StartCharacterSelect()
+    {
+        startCharSelect = true;
+        isTransiting = false;
+        float z = -9;
+        orgStartPos = player.position;
+        for (int i = 0; i < Characters.Length; i++)
+        {
+            if (i != selectedCharIndex)
+            {
+                instantiedCharacters.Add(Instantiate(Characters[i], orgStartPos.WithZ(i < selectedCharIndex ? -12.5f : z), Quaternion.identity));
+                instantiedCharacters[i].GetComponent<Rigidbody>().isKinematic = true;
+            }
+            else
+                instantiedCharacters.Add(player.gameObject);
+
+        }
+
+    }
+
+    public void Previous()
+    {
+        if (selectedCharIndex == 0)
+            return;
+        selectedCharIndex--;
+        instantiedCharacters[selectedCharIndex].GetComponent<Rigidbody>().isKinematic = true;
+        instantiedCharacters[selectedCharIndex].transform.DOMove(orgStartPos, TweenTime).OnComplete(() => instantiedCharacters[selectedCharIndex].GetComponent<Rigidbody>().isKinematic = false);
+        instantiedCharacters[selectedCharIndex + 1].transform.DOMove(orgStartPos.WithZ(-9f), TweenTime);
+
+        instantiedCharacters[selectedCharIndex + 1].GetComponent<Rigidbody>().isKinematic = true;
+        player = instantiedCharacters[selectedCharIndex].transform;
+
+    }
+    public void Next()
+    {
+        if (selectedCharIndex == Characters.Length - 1)
+            return;
+        selectedCharIndex++;
+        instantiedCharacters[selectedCharIndex].transform.DOMove(orgStartPos, TweenTime).OnComplete(() => instantiedCharacters[selectedCharIndex].GetComponent<Rigidbody>().isKinematic = false);
+
+        instantiedCharacters[selectedCharIndex - 1].transform.DOMove(orgStartPos.WithZ(-12.5f), TweenTime);
+        instantiedCharacters[selectedCharIndex - 1].GetComponent<Rigidbody>().isKinematic = true;
+
+        player = instantiedCharacters[selectedCharIndex].transform;
+    }
     void CountDownSeq()
     {
         StartCoroutine(StartRace());
@@ -140,14 +228,54 @@ public class GameMaster : MonoBehaviour
         if (isTransiting)
             CutsceneCamera.transform.LookAt(player);
     }
+
     public void Restart()
     {
         Home = false;
+        Time.timeScale = 1;
+        OnResume();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
+
     public void HomeButton()
     {
         Home = true;
+        OnHome();
+
+        Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void Pause()
+    {
+        OnPause();
+        Time.timeScale = 0;
+    }
+
+    public void Resume()
+    {
+        Time.timeScale = 1;
+        OnResume();
+    }
+
+    public void TurnSound(Toggle t)
+    {
+        if (t.isOn)
+        {
+            EazySoundManager.GlobalMusicVolume = 0;
+            EazySoundManager.GlobalSoundsVolume = 0;
+            PlayerPrefs.SetInt("SoundSet", 0);
+        }
+        else
+        {
+            TurnOnSound();
+            PlayerPrefs.SetInt("SoundSet", 1);
+        }
+    }
+
+    public void TurnOnSound()
+    {
+        EazySoundManager.GlobalMusicVolume = 1;
+        EazySoundManager.GlobalSoundsVolume = 1;
     }
 }

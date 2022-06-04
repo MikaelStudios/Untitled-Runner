@@ -52,3 +52,6 @@ MonoBehaviour:
     Prefab: {fileID: 2287796174741515412, guid: 7cfa7a5afe52c6742ba78c3560f2a720,
       type: 3}
     sizeOfPool: 7
+  - tag: Hit
+    Prefab: {fileID: 1040608886635896, guid: a97415c6b57076f41a6621a7b51d63a3, type: 3}
+    sizeOfPool: 7

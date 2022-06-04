@@ -117,14 +117,51 @@ public static class Extensions
     }
 
     /// <summary>
+    /// Is the collider tag equals "Player" for the OnTrigger functions
+    /// </summary>
+    /// <param name="t"></param>
+    /// <returns></returns>
+    public static bool IsPlayer(this Collider t)
+    {
+        if (t.CompareTag("Player"))
+            return true;
+        else
+            return false;
+    }
+    /// <summary>
+    /// Is the collision tag equals "Player" for the OnCollision functions
+    /// </summary>
+    /// <param name="t"></param>
+    /// <returns></returns>
+    public static bool IsPlayer(this Collision t)
+    {
+        if (t.gameObject.CompareTag("Player"))
+            return true;
+        else
+            return false;
+    }
+    /// <summary>
     /// This sets the velocity and angualr velocity to vecto3.zero
     /// </summary>
     /// <param name="rb"></param>
+    /// 
+
+
     public static void ResetVelocity(this Rigidbody rb)
     {
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
     }
+    //public static void SetTrueExclusive(this bool b)
+    //{
+    //    //if (!b)
+    //        b = true;
+    //}
+    //public static void SetFalseExclusive(this bool b)
+    //{
+    //    if (b)
+    //        b = false;
+    //}
     public static Vector2 xy(this Vector3 v)
     {
         return new Vector2(v.x, v.y);

@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdb9699bc303f7d448edb08864524c2b, type: 3}
+  m_Name: Track_Forest
+  m_EditorClassIdentifier: 
+  m_type: 0
+  m_tracks:
+  - m_track: {fileID: 1779170279366576506, guid: 42162dc1979b52f4aa627f9a2bcf4203,
+      type: 3}
+    m_difficulty: 0
+  - m_track: {fileID: 6050466380468247160, guid: a6b3a0383e2707340985a89422cb6f22,
+      type: 3}
+    m_difficulty: 0
+  - m_track: {fileID: 4356960764358552423, guid: 2b3c7f309f08e5c49bf4e371a2b1fc41,
+      type: 3}
+    m_difficulty: 0
+  sky_UpColor: {r: 0.57254905, g: 0.82745105, b: 0.93725497, a: 0}
+  sky_DownColor: {r: 0.89019614, g: 0.9568628, b: 0.9843138, a: 0}

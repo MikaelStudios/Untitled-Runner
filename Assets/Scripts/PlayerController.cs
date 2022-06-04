@@ -1,4 +1,5 @@
-﻿using Hellmade.Sound;
+﻿using DG.Tweening;
+using Hellmade.Sound;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -11,6 +12,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private float speed;
     [SerializeField] private float jumpForce;
+    [SerializeField] private float speedMultiplier;
+    [SerializeField] private float maxSpeed;
     [SerializeField] bool canDoubleJump = true;
 
     [Header("BETTER JUMP MODIFIERS")]
@@ -25,6 +28,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] LayerMask groundMask;
 
 
+    [Header("CLIMBING MECHANICS")]
+    [SerializeField] bool isClimbing = false;
+    [SerializeField] float climbSpeed = 3.5f;
+
+
     [Header("SLIDING MECHANIC")]
 
     [SerializeField] Vector3 CapsuleCenter = new Vector3(-0.01134665f, 0.1278877f, -0.01678713f);
@@ -32,6 +40,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float SlideTime = 55f;
     Vector3 HeadCasterDefaultPosition;
 
+    [Header("LANE CHANGING")]
+    [SerializeField] bool canChangeLane;
+    [SerializeField] float laneChangeSpeed;
 
     [Header("WALL VAULTING")]
     [SerializeField] Transform[] BodyCasters;
@@ -42,6 +53,10 @@ public class PlayerController : MonoBehaviour
     [Header("WALL RUN")]
     [SerializeField] Transform WallRunChecker;
     [SerializeField] float WallRayDistance;
+
+    [Header("POWER UP")]
+    [SerializeField] float speedBoostTime;
+    public bool speedBoostDefence = false;
 
     [Header("FALL DAMAGE DEBUG CALCS")]
     [SerializeField] float DeathHeight = -5f;
@@ -63,6 +78,7 @@ public class PlayerController : MonoBehaviour
     bool isDead = false;
     bool isWallRunning = false;
     bool isBoosting = false;
+    bool isVaulting = false;
 
     bool isFalling = false;
     float jumpHeight;
@@ -73,7 +89,7 @@ public class PlayerController : MonoBehaviour
     Vector3 defaultCCcenter;
     float defaultCCheight;
     Vector3 currCheckpoint;
-
+    int no_Casters;
     #endregion
 
     #region Events
@@ -88,6 +104,8 @@ public class PlayerController : MonoBehaviour
     public event Action OnWin = delegate { };
     public event Action AirBoost = delegate { };
     public event Action Stumble = delegate { };
+    public event Action OnClimbStart = delegate { };
+    public event Action OnClimbEnd = delegate { };
     #endregion
 
     #region Properties
@@ -109,6 +127,7 @@ public class PlayerController : MonoBehaviour
                 OnLanded(jumpHeight - transform.position.y);
                 isFalling = false;
                 isBoosting = false;
+                isVaulting = false;
                 //VelocityTest.text = (jumpHeight - transform.position.y).ToString();
             }
             isGrounded = value;
@@ -129,10 +148,15 @@ public class PlayerController : MonoBehaviour
         defaultCCheight = CC.height;
         HeadCasterDefaultPosition = HeadCaster.localPosition;
         currCheckpoint = transform.position;
+        no_Casters = BodyCasters.Length;
         InputManager.instance.OnTap += Jump;
         InputManager.instance.OnHold += WallRun;
         InputManager.instance.OnSwipe += Slide;
+        //InputManager.instance.OnSwipe += LaneChange;
         InputManager.instance.OnHoldEnd += WallRunEnd;
+        if (!name.Equals("Generic Girl"))
+            ReassignCasters();
+        //m_groundCheck = GetComponentInChildren<GroundCheck>();
     }
 
     private void Update()
@@ -148,7 +172,16 @@ public class PlayerController : MonoBehaviour
         if (transform.position.y < DeathHeight)
             Death();
         CanVaultCheck();
+        //transform.position = transform.position.SetPositionX(Mathf.Clamp(transform.position.x, -1, 0));
+    }
 
+    public void ReassignCasters()
+    {
+        m_groundCheck = GetComponentInChildren<GroundCheck>();
+        BodyCasters[0] = transform.Find("Body Ray Caster(Clone)").transform;
+        BodyCasters[1] = BodyCasters[0].Find("Body Ray Caster").transform;
+        WallRunChecker = transform.Find("Wall RUn Ray Caster(Clone)").transform;
+        HeadCaster = transform.Find("HeadRay Caster(Clone)").transform;
     }
     private void FixedUpdate()
     {
@@ -167,7 +200,7 @@ public class PlayerController : MonoBehaviour
             Gizmos.DrawRay(HeadCaster.position + new Vector3(0, .1f, 0), transform.forward * RayDistance);
         }
         Gizmos.color = Color.green;
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < BodyCasters.Length; i++)
         {
             Gizmos.DrawRay(BodyCasters[i].position, transform.forward * RayDistance);
         }
@@ -219,18 +252,23 @@ public class PlayerController : MonoBehaviour
 
     private void AutoMoveForward()
     {
+        if (isClimbing)
+            return;
         rb.MovePosition(transform.position + transform.forward * speed * Time.fixedDeltaTime);
+        if (speed < maxSpeed)
+            speed += Time.deltaTime * speedMultiplier;
     }
 
     void Jump()
     {
-        if (isDead || isWallRunning)
+        if (isDead || isWallRunning || isClimbing)
             return;
         if (IsGrounded)
         {
             RigidbodyJump();
             if (!canJumpAgain)
                 canJumpAgain = true;
+            OnJump();
         }
         else if (canJumpAgain && canDoubleJump)
         {
@@ -243,12 +281,17 @@ public class PlayerController : MonoBehaviour
     private void CanVaultCheck()
     {
         bool onEdge = false;
-        for (int i = 0; i < 2; i++)
+        for (int i = no_Casters - 1; i >= 0; i--)
         {
             if (Physics.Raycast(BodyCasters[i].position, transform.forward, RayDistance, groundMask))
                 onEdge = true;
             else
             {
+                if (onEdge == true)
+                {
+                    rb.ResetVelocity();
+                    rb.velocity = Vector3.up * (VaultForce / 2) * 100 * Time.fixedDeltaTime;
+                }
                 onEdge = false;
                 break;
             }
@@ -257,19 +300,23 @@ public class PlayerController : MonoBehaviour
         bool OnHead = Physics.Raycast(HeadCaster.position, transform.forward, out hitInfo, RayDistance, groundMask) || Physics.Raycast(HeadCaster.position + new Vector3(0, .1f, 0), transform.forward, out hitInfo, RayDistance, groundMask);
         if (onEdge && !OnHead && !isGrounded)
             VaultJump();
-        else if (onEdge && OnHead && IsGrounded)
-            CollideDeath();
-        else if (!onEdge && OnHead)
+        else if (onEdge || OnHead)
+            ClimbUpWards();
+        else if (isClimbing)
         {
-            Death();
-            //if (hitInfo.collider != null)
-            //{
-            //    Extensions.Debug(hitInfo.collider.transform.position.z.ToString());
-            //    Extensions.Debug(HeadCaster.transform.position.z.ToString());
-            //    Extensions.Debug(hitInfo.collider.gameObject.name);
-
-            //}
+            isClimbing = false;
+            rb.useGravity = true;
+            isVaulting = false;
+            OnClimbEnd();
         }
+        //if (speedBoostDefence)
+        //    return;
+        //else if (onEdge && OnHead && IsGrounded)
+        //    CollideDeath();
+        //else if (!onEdge && OnHead)
+        //{
+        //    Death();
+        //}
 
     }
 
@@ -278,8 +325,25 @@ public class PlayerController : MonoBehaviour
         //isDead = true;
         Death();
     }
+    void ClimbUpWards()
+    {
+        if (!isClimbing)
+        {
+            isClimbing = true;
+            rb.ResetVelocity();
+            rb.useGravity = false;
+            OnClimbStart();
+            isVaulting = false;
+        }
+        //rb.useGravity =
+        //WaitForFixedUpdate(() => rb.MovePosition(transform.position + transform.up * Time.fixedDeltaTime * speed));
+        rb.MovePosition(transform.position + Vector3.up * Time.fixedDeltaTime * climbSpeed);
+    }
     void VaultJump()
     {
+        if (isVaulting)
+            return;
+        isVaulting = true;
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
         rb.velocity = Vector3.up * VaultForce * 100 * Time.fixedDeltaTime;
@@ -330,7 +394,7 @@ public class PlayerController : MonoBehaviour
         //rb.velocity = Vector3.up * jumpForce * 100 * Time.fixedDeltaTime;
         EazySoundManager.PlaySound(Sound_Jump.GetRandom());
         rb.AddForce(Vector3.up * jumpForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
-        OnJump?.Invoke();
+
         //rb.AddForce(Vector3.up * 100 * jumpForce * Time.fixedDeltaTime);
         //WaitForFixedUpdate(() => rb.AddForce(Vector3.up * 100 * jumpForce * Time.fixedDeltaTime));
     }
@@ -341,6 +405,25 @@ public class PlayerController : MonoBehaviour
         rb.angularVelocity = Vector3.zero;
     }
 
+    void LaneChange(SwipeData swipe)
+    {
+        if (!canChangeLane)
+            return;
+        if (swipe.Direction == SwipeDirection.Left && isInRangeOf(transform.position.x, 0))
+            transform.DOMoveX(-1, laneChangeSpeed);
+        if (swipe.Direction == SwipeDirection.Right && isInRangeOf(transform.position.x, -1))
+            transform.DOMoveX(0, laneChangeSpeed);
+
+    }
+    bool isInRangeOf(float a, float x)
+    {
+
+        if (a <= x + .01f && a >= x - .01f)
+            return true;
+        else
+            return false;
+
+    }
     void Slide(SwipeData swipe)
     {
         if (isDead || isWallRunning)
@@ -382,13 +465,14 @@ public class PlayerController : MonoBehaviour
         if (InstantDeath)
             return;
         Timer.Register(TimeToRespawn, () => transform.position = currCheckpoint);
-        const float V = .25f;
+        const float V = .35f;
         Timer.Register(TimeToRespawn + V, () => Revive());
         Timer.Register(TimeToRespawn + V + .1f, () => gameObject.SetActive(true));
         ResetVelocity();
 
     }
 
+    Timer _SD;
     public void SpeedBoost(Vector3 force, float addedSpeed)
     {
         if (force.y != 0)
@@ -401,6 +485,10 @@ public class PlayerController : MonoBehaviour
             rb.AddForce(force * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
         }
         Speed += addedSpeed;
+        speedBoostDefence = true;
+        if (_SD != null)
+            _SD.Cancel();
+        _SD = Timer.Register(speedBoostTime, () => speedBoostDefence = false);
     }
     public void Revive()
     {
