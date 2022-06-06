@@ -35,10 +35,10 @@ public class GameMaster : MonoBehaviour
     [SerializeField] AudioClip Go;
 
     [Header("CHARACTER SELECT")]
-    [SerializeField] GameObject[] Characters;
+    public GameObject[] Characters;
     [SerializeField] float TweenTime;
     List<GameObject> instantiedCharacters = new List<GameObject>();
-    int selectedCharIndex = 0;
+    public int selectedCharIndex = 0;
     bool startCharSelect = false;
 
     public event Action OnGameStart = delegate { };
