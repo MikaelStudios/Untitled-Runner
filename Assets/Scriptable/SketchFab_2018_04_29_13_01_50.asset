@@ -16,7 +16,7 @@ MonoBehaviour:
   CharacterObject: {fileID: 2540186168758038433, guid: b2eb263dc15a9274f830d60688c7b0fb,
     type: 3}
   Price: 9000
-  Name: Fox
+  Name: Kemp the Fox
   speed: 3
   jumpHeight: 4
   climbingSpeed: 3

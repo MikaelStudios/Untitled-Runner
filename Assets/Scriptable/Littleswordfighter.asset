@@ -16,7 +16,7 @@ MonoBehaviour:
   CharacterObject: {fileID: 9028215083756212670, guid: c6691dd19f14be547a37545bb05ff5b8,
     type: 3}
   Price: 5000
-  Name: Littleswordfighter
+  Name: Agnar fighter
   speed: 7
   jumpHeight: 6
   climbingSpeed: 2.5

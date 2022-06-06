@@ -16,7 +16,7 @@ MonoBehaviour:
   CharacterObject: {fileID: 4778878867470110446, guid: ed9276e7929b3ef44a95b187cb34f08e,
     type: 3}
   Price: 1500
-  Name: Genric Girl 1
+  Name: Edme the Runner
   speed: 3.5
   jumpHeight: 3.5
   climbingSpeed: 1.5
