@@ -40,7 +40,8 @@ public class GameMaster : MonoBehaviour
     List<GameObject> instantiedCharacters = new List<GameObject>();
     public int selectedCharIndex = 0;
     bool startCharSelect = false;
-
+    public bool gameStart=false;
+    public bool countDown = false;
     public event Action OnGameStart = delegate { };
     public event Action OnHome = delegate { };
     public event Action OnPause = delegate { };
@@ -185,7 +186,9 @@ public class GameMaster : MonoBehaviour
 
     IEnumerator StartRace()
     {
+        
         CountDownText.gameObject.SetActive(true);
+        countDown = true;
         for (int i = 3; i >= 0; i--)
         {
             if (i == 0)
@@ -202,6 +205,7 @@ public class GameMaster : MonoBehaviour
             CountDownText.rectTransform.DOScale(1, .7f).SetEase(Ease.OutBounce);
             yield return new WaitForSeconds(1);
         }
+        gameStart = true;
         CountDownText.gameObject.SetActive(false);
     }
 
