@@ -16,7 +16,7 @@ MonoBehaviour:
   CharacterObject: {fileID: 7827007557141353624, guid: 6a5a1a8c0f503494d9930188daf4a407,
     type: 3}
   Price: 2500
-  Name: Black_titan
+  Name: Cadel titan
   speed: 3.7
   jumpHeight: 7
   climbingSpeed: 2.5

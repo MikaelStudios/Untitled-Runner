@@ -16,7 +16,7 @@ MonoBehaviour:
   CharacterObject: {fileID: 4778878867470110446, guid: 1bf96448ca6d8ec46bf070ff60a34de7,
     type: 3}
   Price: 1800
-  Name: Genric Girl 2
+  Name: Hilda
   speed: 4
   jumpHeight: 4
   climbingSpeed: 2

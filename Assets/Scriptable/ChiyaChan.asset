@@ -16,7 +16,7 @@ MonoBehaviour:
   CharacterObject: {fileID: 5486049154536436008, guid: cc5fa8bdffc5e0a4f8b4644b4606a8fb,
     type: 3}
   Price: 3000
-  Name: ChiyaChan
+  Name: Chiya
   speed: 3.8
   jumpHeight: 3
   climbingSpeed: 2

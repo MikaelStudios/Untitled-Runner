@@ -16,7 +16,7 @@ MonoBehaviour:
   CharacterObject: {fileID: 2375789595899187234, guid: 16e55bbc881c41f449ecf2f2c3d368ca,
     type: 3}
   Price: 6000
-  Name: old_skeleton_afro
+  Name: Skeltor
   speed: 5
   jumpHeight: 4
   climbingSpeed: 2.8
