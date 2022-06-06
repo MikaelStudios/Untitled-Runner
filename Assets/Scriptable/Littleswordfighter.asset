@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd7e7a6dba9af4351abf2dc88d63711b, type: 3}
+  m_Name: Littleswordfighter
+  m_EditorClassIdentifier: 
+  index: 5
+  CharacterObject: {fileID: 9028215083756212670, guid: c6691dd19f14be547a37545bb05ff5b8,
+    type: 3}
+  Price: 5000
+  Name: Littleswordfighter
+  speed: 7
+  jumpHeight: 6
+  climbingSpeed: 2.5
+  isUnlocked: 0

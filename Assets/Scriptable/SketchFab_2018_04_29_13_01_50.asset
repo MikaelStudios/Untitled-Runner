@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd7e7a6dba9af4351abf2dc88d63711b, type: 3}
+  m_Name: SketchFab_2018_04_29_13_01_50
+  m_EditorClassIdentifier: 
+  index: 7
+  CharacterObject: {fileID: 2540186168758038433, guid: b2eb263dc15a9274f830d60688c7b0fb,
+    type: 3}
+  Price: 9000
+  Name: Fox
+  speed: 3
+  jumpHeight: 4
+  climbingSpeed: 3
+  isUnlocked: 0
