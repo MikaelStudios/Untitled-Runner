@@ -43,7 +43,7 @@ public class CoinManager : MonoBehaviour
 
     public void UpdateCoin(int coin)
     {
-        coinText.text = coin.ToString();
+        coinText.text = "Coin: "+coin.ToString();
     }
     // Update is called once per frame
     void Update()

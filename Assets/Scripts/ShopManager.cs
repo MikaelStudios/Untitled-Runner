@@ -7,7 +7,7 @@ public class ShopManager : MonoBehaviour
 {
     public CharacterScript[] characterArray;
     public Button buyButton;
-    public TextMeshProUGUI nameText;
+    public TextMeshProUGUI nameText, speedText, jumpText, climbText;
     int selectedCharIndex = 0;
     bool startCharSelect = false;
     int currentIndex;
@@ -70,6 +70,9 @@ public class ShopManager : MonoBehaviour
             buyButton.gameObject.SetActive(true);
          //   buyButton.GetComponentInChildren<TextMeshProUGUI>().text = "Buy-" + character.Price;
             nameText.text = character.Name;
+            speedText.text = character.speed.ToString();
+            jumpText.text = character.jumpHeight.ToString();
+            climbText.text = character.climbingSpeed.ToString();
         }
     }
     

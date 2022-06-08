@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bd7e7a6dba9af4351abf2dc88d63711b, type: 3}
-  m_Name: Generic Girl 1
+  m_Name: SketchFab_2018_04_29_13_01_50
   m_EditorClassIdentifier: 
-  index: 1
-  CharacterObject: {fileID: 4778878867470110446, guid: ed9276e7929b3ef44a95b187cb34f08e,
+  index: 7
+  CharacterObject: {fileID: 2540186168758038433, guid: b2eb263dc15a9274f830d60688c7b0fb,
     type: 3}
-  Price: 1500
-  Name: Genric Girl 1
-  speed: 3.5
-  jumpHeight: 3.5
-  climbingSpeed: 1.5
+  Price: 9000
+  Name: Kemp the Fox
+  speed: 3
+  jumpHeight: 4
+  climbingSpeed: 3
   isUnlocked: 0
