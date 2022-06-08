@@ -37,7 +37,7 @@ public class GameMaster : MonoBehaviour
     [Header("CHARACTER SELECT")]
     public GameObject[] Characters;
     [SerializeField] float TweenTime;
-    List<GameObject> instantiedCharacters = new List<GameObject>();
+    public List<GameObject> instantiedCharacters = new List<GameObject>();
     public int selectedCharIndex = 0;
     bool startCharSelect = false;
     public bool gameStart=false;
@@ -47,7 +47,7 @@ public class GameMaster : MonoBehaviour
     public event Action OnPause = delegate { };
     public event Action OnResume = delegate { };
     public static GameMaster instance;
-
+    public CharacterBluePrint[] characterArray;
     Camera mainCamera;
     Transform player;
     bool isTransiting = true;
@@ -136,6 +136,7 @@ public class GameMaster : MonoBehaviour
 
     public void StartCharacterSelect()
     {
+        Debug.Log(GameMaster.instance.characterArray[GameMaster.instance.selectedCharIndex].Speed);
         startCharSelect = true;
         isTransiting = false;
         float z = -9;
@@ -146,13 +147,17 @@ public class GameMaster : MonoBehaviour
             {
                 instantiedCharacters.Add(Instantiate(Characters[i], orgStartPos.WithZ(i < selectedCharIndex ? -12.5f : z), Quaternion.identity));
                 instantiedCharacters[i].GetComponent<Rigidbody>().isKinematic = true;
+                
             }
             else
                 instantiedCharacters.Add(player.gameObject);
-
+          
         }
 
     }
+    
+
+
 
     public void Previous()
     {
@@ -166,6 +171,7 @@ public class GameMaster : MonoBehaviour
         instantiedCharacters[selectedCharIndex + 1].GetComponent<Rigidbody>().isKinematic = true;
         player = instantiedCharacters[selectedCharIndex].transform;
 
+       
     }
     public void Next()
     {
@@ -178,6 +184,7 @@ public class GameMaster : MonoBehaviour
         instantiedCharacters[selectedCharIndex - 1].GetComponent<Rigidbody>().isKinematic = true;
 
         player = instantiedCharacters[selectedCharIndex].transform;
+        
     }
     void CountDownSeq()
     {

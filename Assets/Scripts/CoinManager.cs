@@ -18,19 +18,18 @@ public class CoinManager : MonoBehaviour
     {
         initialCoins = PlayerPrefs.GetInt("NumberOfCoins",0);
 
-        // Display the coins
         UpdateCoin(initialCoins);
     }
 
 
-    public void AddText(int coin)
+    public void AddCoin(int coin)
     {
         initialCoins += coin;
         SaveCoin(initialCoins);
         UpdateCoin(initialCoins);
     }
 
-    public void RemovText(int coin)
+    public void RemoveCoin(int coin)
     {
         initialCoins -= coin;
         SaveCoin(initialCoins);
@@ -46,8 +45,5 @@ public class CoinManager : MonoBehaviour
         coinText.text = "Coin: "+coin.ToString();
     }
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 }

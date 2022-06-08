@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("CLIMBING MECHANICS")]
     [SerializeField] bool isClimbing = false;
-    [SerializeField] float climbSpeed = 3.5f;
+    [SerializeField] float climbSpeed ;
 
 
     [Header("SLIDING MECHANIC")]
@@ -142,6 +142,8 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        climbSpeed = GameMaster.instance.characterArray[GameMaster.instance.selectedCharIndex].Climb;
+        Debug.Log(climbSpeed); 
         rb = GetComponent<Rigidbody>();
         CC = GetComponent<CapsuleCollider>();
         defaultCCcenter = CC.center;
@@ -330,6 +332,7 @@ public class PlayerController : MonoBehaviour
     }
     void ClimbUpWards()
     {
+        climbSpeed= GameMaster.instance.characterArray[GameMaster.instance.selectedCharIndex].Climb;
         if (!isClimbing)
         {
             isClimbing = true;
