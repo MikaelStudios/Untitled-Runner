@@ -15,7 +15,7 @@ MonoBehaviour:
   index: 1
   CharacterObject: {fileID: 4778878867470110446, guid: ed9276e7929b3ef44a95b187cb34f08e,
     type: 3}
-  Price: 1500
+  Price: 0
   Name: Edme the Runner
   speed: 3.5
   jumpHeight: 3.5

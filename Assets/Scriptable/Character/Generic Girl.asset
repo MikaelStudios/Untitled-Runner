@@ -16,7 +16,7 @@ MonoBehaviour:
   CharacterObject: {fileID: -927199367670048503, guid: c56a51e324b9fee40a011b924e6dd94f,
     type: 3}
   Price: 0
-  Name: Lulu The Pearl
+  Name: Lulu
   speed: 4
   jumpHeight: 3
   climbingSpeed: 1

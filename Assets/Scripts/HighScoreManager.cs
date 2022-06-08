@@ -41,8 +41,9 @@ public class HighScoreManager : MonoBehaviour
         if(GameMaster.instance.countDown)
         {
 
-            highScoreText.gameObject.SetActive(true);
+            highScoreText.gameObject.SetActive(false);
         }
+
 
 
         highScoreText.text = "Best: " + PlayerPrefs.GetInt("score").ToString();
