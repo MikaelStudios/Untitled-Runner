@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3873206206271937132}
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -4.874987, y: -0.00095903873, z: -0.6499866}
+  m_LocalPosition: {x: -7.44, y: -0.00095903873, z: -7.6}
   m_LocalScale: {x: 1.7499982, y: 1.75, z: 0.8749991}
   m_Children: []
   m_Father: {fileID: 3876997821714023867}
@@ -55,6 +55,8 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -79,6 +81,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!136 &3756215727780273200
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -120,7 +123,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3873206206581325928}
   m_LocalRotation: {x: 0.25028306, y: -0.6613308, z: -0.049283355, w: 0.70538723}
-  m_LocalPosition: {x: -6.059754, y: -0.10595858, z: -0.6399922}
+  m_LocalPosition: {x: -6.76, y: -0.65, z: -8.73}
   m_LocalScale: {x: 1.7373089, y: 1.6901598, z: 0.9475288}
   m_Children: []
   m_Father: {fileID: 3876997821714023867}
@@ -148,6 +151,8 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -172,6 +177,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!136 &3756215727571797556
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -213,7 +219,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3873206206841936729}
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -8.424978, y: -0.00095903873, z: -3}
+  m_LocalPosition: {x: -8.42, y: -0.00095903873, z: -9.34}
   m_LocalScale: {x: 1.7499982, y: 1.75, z: 0.8749991}
   m_Children: []
   m_Father: {fileID: 3876997821714023867}
@@ -241,6 +247,8 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -265,6 +273,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!136 &3756215728351452421
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -306,7 +315,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3873206206849445188}
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 4.874987, y: -0.00095903873, z: -3.650011}
+  m_LocalPosition: {x: 4.9, y: -0.00095903873, z: 9.1}
   m_LocalScale: {x: 1.7499982, y: 1.75, z: 0.8749991}
   m_Children: []
   m_Father: {fileID: 3876997821714023867}
@@ -334,6 +343,8 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -358,6 +369,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!136 &3756215728376654616
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -431,6 +443,8 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -456,6 +470,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!64 &3874196321223569788
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -466,7 +481,7 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 0
-  m_CookingOptions: 14
+  m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 9ba174f248b40434d8bd6d72c58b19bd, type: 3}

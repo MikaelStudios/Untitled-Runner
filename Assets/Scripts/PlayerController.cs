@@ -157,6 +157,8 @@ public class PlayerController : MonoBehaviour
         if (!name.Equals("Generic Girl"))
             ReassignCasters();
         //m_groundCheck = GetComponentInChildren<GroundCheck>();
+
+        //InvokeRepeating("IncreaseSpeed", 5f, 15f);
     }
 
     private void Update()
@@ -258,6 +260,7 @@ public class PlayerController : MonoBehaviour
         if (speed < maxSpeed)
             speed += Time.deltaTime * speedMultiplier;
     }
+  
 
     void Jump()
     {
