@@ -5,8 +5,14 @@ using UnityEngine;
 public class Collectible : MonoBehaviour
 {
     // Start is called before the first frame update
-    private void OnTriggerEnter(Collider collision)
+    void Start()
     {
-        this.gameObject.SetActive(false);
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
     }
 }

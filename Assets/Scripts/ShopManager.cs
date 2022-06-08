@@ -1,117 +1,79 @@
-using TMPro;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 public class ShopManager : MonoBehaviour
 {
-    public CharacterBluePrint[] characterArray;
+    public CharacterScript[] characterArray;
     public Button buyButton;
     public TextMeshProUGUI nameText, speedText, jumpText, climbText;
-    
-    public int coins;
-    private int currentIndex;
-    public Button selectedButton;
-    public static ShopManager instance;
+    int selectedCharIndex = 0;
+    bool startCharSelect = false;
+    int currentIndex;
 
-    private void Awake()
-    {
-        instance = this;
-    }
     // Start is called before the first frame update
     void Start()
     {
-       
-        coins = CoinManager.instance.initialCoins;
-        foreach (CharacterBluePrint character in characterArray)
+        foreach (CharacterScript character in characterArray)
         {
 
-            if (character.Name == "Lulu")
+            if (character.name == " Generic Girl")
             {
                 character.isUnlocked = true;
-             
-                Debug.Log(character.isUnlocked);
             }
             else
             {
-                character.isUnlocked = PlayerPrefs.GetInt(character.Name, 0) == 0 ? false : true;
-                Debug.Log(character.isUnlocked);
-                
+                character.isUnlocked = PlayerPrefs.GetInt(character.name, 0) == 0 ? false : true;
             }
         }
-       
+
     }
 
-    private void LateUpdate()
+
+    public void UnlockCharacter()
+    {
+
+        CharacterScript character =characterArray[GameMaster.instance.selectedCharIndex];
+
+        PlayerPrefs.SetInt(character.name, 2);
+
+        PlayerPrefs.SetInt("SelectedChar", GameMaster.instance.selectedCharIndex);
+
+
+    }
+
+    public void SelectedCharacter()
     {
         currentIndex = GameMaster.instance.selectedCharIndex;
-        CharacterBluePrint character = characterArray[currentIndex];
-        if (character.isUnlocked)
-        {
-            selectedButton.gameObject.SetActive(true);
-           
-        }
-
-        else
-        {
-            selectedButton.gameObject.SetActive(false);
-        }
+        foreach (GameObject character in GameMaster.instance.Characters)
+            character.SetActive(false);
+        GameMaster.instance.Characters[GameMaster.instance.selectedCharIndex].SetActive(true);
     }
-    public float climbSpeed;
+    // Update is called once per frame
+    void Update()
+    {
+        UpdateUI();
+    }
+
     public void UpdateUI()
     {
-        CharacterBluePrint character = characterArray[currentIndex];
-        
+        CharacterScript character = characterArray[GameMaster.instance.selectedCharIndex];
         if(character.isUnlocked)
         {
 
             buyButton.gameObject.SetActive(false);
-        }
 
+        }
         else
         {
-            climbSpeed = character.Speed;
             buyButton.gameObject.SetActive(true);
-            buyButton.GetComponentInChildren<TextMeshProUGUI>().text = "Buy-" + character.Price;
+         //   buyButton.GetComponentInChildren<TextMeshProUGUI>().text = "Buy-" + character.Price;
             nameText.text = character.Name;
-            speedText.text = climbSpeed.ToString();
-            jumpText.text = character.Jump.ToString();
-            climbText.text = character.Climb.ToString();
-            if(character.Price <= PlayerPrefs.GetInt("NumberOfCoins", coins))
-             {
-                buyButton.interactable = true;
-            }
-            else
-            {
-                buyButton.interactable = false;
-            }
+            speedText.text = character.speed.ToString();
+            jumpText.text = character.jumpHeight.ToString();
+            climbText.text = character.climbingSpeed.ToString();
         }
-
     }
-    private void Update()
-    {
-        UpdateUI();
-    }
-    public void UnLockCharacters() {
-
-        CharacterBluePrint character = characterArray[currentIndex];
-        PlayerPrefs.SetInt(character.Name, 1);
-        PlayerPrefs.SetInt("SelectedChar", currentIndex);
-        character.isUnlocked = true;
-        PlayerPrefs.SetInt("NumberOfCoins", PlayerPrefs.GetInt("NumberOfCoins", coins) - character.Price);
-
-    }
-
-    public void SelectedVehicles()
-    {
-        currentIndex = GameMaster.instance.selectedCharIndex;
-        
-        GameMaster.instance.Characters[currentIndex].SetActive(true);
-        CharacterBluePrint character = characterArray[currentIndex];
-        Debug.Log(GameMaster.instance.Characters[GameMaster.instance.selectedCharIndex] + "is selected");
-
-
-
-        
-    }
-
-
+    
 }
