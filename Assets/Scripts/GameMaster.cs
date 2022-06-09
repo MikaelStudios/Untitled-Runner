@@ -36,6 +36,7 @@ public class GameMaster : MonoBehaviour
 
     [Header("CHARACTER SELECT")]
     public GameObject[] Characters;
+    public CharacterBluePrint[] characterArray;
     [SerializeField] float TweenTime;
     List<GameObject> instantiedCharacters = new List<GameObject>();
     public int selectedCharIndex = 0;
