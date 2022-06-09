@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("CLIMBING MECHANICS")]
     [SerializeField] bool isClimbing = false;
-    [SerializeField] float climbSpeed = 3.5f;
+    [SerializeField] float climbSpeed ;
 
 
     [Header("SLIDING MECHANIC")]
@@ -142,6 +142,8 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        climbSpeed = ShopManager.instance.characterArray[ShopManager.instance.currentIndex].Climb;
+        speed = ShopManager.instance.characterArray[ShopManager.instance.currentIndex].Speed;
         rb = GetComponent<Rigidbody>();
         CC = GetComponent<CapsuleCollider>();
         defaultCCcenter = CC.center;
