@@ -745,16 +745,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterArray:
-  - {fileID: 11400000, guid: 254d0252668cd4c6abcf2d107a40b335, type: 2}
-  - {fileID: 11400000, guid: 5b47c1963c8454f9aab7207d3f1a0d3a, type: 2}
-  - {fileID: 11400000, guid: 26d711669c5554ba7a8c2fedcfc0af77, type: 2}
-  - {fileID: 11400000, guid: d9b022c6439954b8da4d21978abaa57c, type: 2}
-  - {fileID: 11400000, guid: 4c04a984ee76049bdad29f010b1aba9e, type: 2}
-  - {fileID: 11400000, guid: 386dd464ccbeb4d9c963bac3a9a9fd77, type: 2}
-  - {fileID: 11400000, guid: 8b6552f6f32d94569a8f4b7c92624689, type: 2}
-  - {fileID: 11400000, guid: 013a8934d02ab4dcf8832ccdd0405b58, type: 2}
-  - {fileID: 11400000, guid: 82defc9272de340e793b7294cc5164c0, type: 2}
-  - {fileID: 11400000, guid: e09127e9903444f1d9c27303cb6ade5d, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   buyButton: {fileID: 870693775}
   nameText: {fileID: 242204374}
   speedText: {fileID: 323157703}
@@ -7089,7 +7089,7 @@ PrefabInstance:
     - target: {fileID: 3857192627183362586, guid: 976dada907f8bdd428bac348e8ebd7b8,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -9.999939
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 3857192627221301684, guid: 976dada907f8bdd428bac348e8ebd7b8,
         type: 3}
@@ -7239,7 +7239,7 @@ PrefabInstance:
     - target: {fileID: 3857192627836310812, guid: 976dada907f8bdd428bac348e8ebd7b8,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -9.999939
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 3857192628538232446, guid: 976dada907f8bdd428bac348e8ebd7b8,
         type: 3}
@@ -7254,12 +7254,22 @@ PrefabInstance:
     - target: {fileID: 5810301207670811209, guid: 976dada907f8bdd428bac348e8ebd7b8,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -9.999939
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 7606100074524914705, guid: 976dada907f8bdd428bac348e8ebd7b8,
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7606100074524914710, guid: 976dada907f8bdd428bac348e8ebd7b8,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 64.70001
+      objectReference: {fileID: 0}
+    - target: {fileID: 7606100074524914710, guid: 976dada907f8bdd428bac348e8ebd7b8,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -58.19995
       objectReference: {fileID: 0}
     - target: {fileID: 8357122015634959185, guid: 976dada907f8bdd428bac348e8ebd7b8,
         type: 3}
@@ -7619,6 +7629,11 @@ PrefabInstance:
         type: 3}
       propertyPath: startPos.z
       value: -10.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4581948891039727033, guid: 37fe1523f7b76a444806d5b25c366c36,
+        type: 3}
+      propertyPath: ColorChange
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4581948891039727034, guid: 37fe1523f7b76a444806d5b25c366c36,
         type: 3}
